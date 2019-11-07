@@ -14,4 +14,8 @@
     <string name="prev">Prev</string>
     <string name="previous_question">Previous question</string>
     <string name="next_question">Next question</string>
+    <string name="warning_text">R U sure?</string>
+    <string name="show_answer_button">SHOW ME ANSWER</string>
+    <string name="cheat_button">Cheat!</string>
+    <string name="judgment_toast">Sorry, u\'re cheater ;)</string>
 </resources>
