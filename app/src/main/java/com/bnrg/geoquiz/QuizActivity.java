@@ -17,6 +17,7 @@ public class QuizActivity extends AppCompatActivity {
     private static final String TAG = "QuizActivity";
     private static final String KEY_INDEX = "index";
     private static final int REQUEST_CODE_CHEAT = 0;
+    private static final String KEY_CHEATER = "cheater";
 
     private Button mTrueButton;
     private Button mFalseButton;
@@ -46,6 +47,8 @@ public class QuizActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            mIsCheater = savedInstanceState.getBoolean(KEY_CHEATER, false);
+            Log.d(TAG, "Restored mIsCheater " + mIsCheater);
         }
 
         mFalseButton = findViewById(R.id.false_button);
@@ -87,6 +90,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 mCheatButton.setClickable(true);
+                mIsCheater = false;
                 updateQuestion();
             }
         });
@@ -111,6 +115,7 @@ public class QuizActivity extends AppCompatActivity {
                 return;
             }
             mIsCheater = CheatActivity.wasAnswerShown(data);
+            Log.d(TAG, "In onActivity mIsCheat " + mIsCheater);
         }
     }
 
@@ -138,6 +143,7 @@ public class QuizActivity extends AppCompatActivity {
         Log.i(TAG, "onSaveInstanceState");
 
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        savedInstanceState.putBoolean(KEY_CHEATER, mIsCheater);
     }
 
     @Override
@@ -182,7 +188,7 @@ public class QuizActivity extends AppCompatActivity {
         if (mIsCheater) {
             Toast toast = Toast.makeText(this,R.string.judgment_toast, Toast.LENGTH_SHORT);
 
-            toast.setGravity(Gravity.TOP, 0, 55);
+            toast.setGravity(Gravity.TOP, 0, 75);
 
             toast.show();
 
@@ -199,13 +205,11 @@ public class QuizActivity extends AppCompatActivity {
                 mFalseButton.setClickable(false);
 
 
-            } else {
-                messageRestId = R.string.incorrect_toast;
-            }
+            } else messageRestId = R.string.incorrect_toast;
 
             Toast t = Toast.makeText(this, messageRestId, Toast.LENGTH_SHORT);
 
-            t.setGravity(Gravity.TOP, 0, 55);
+            t.setGravity(Gravity.TOP, 0, 75);
 
             t.show();
 

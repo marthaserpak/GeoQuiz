@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,10 +14,13 @@ public class CheatActivity extends AppCompatActivity {
 
     public static final String GROUND_ANSWER = "groundAnswer";
     public static final String ANSWER_SHOWN = "answerShown";
+    private static final String KEY_INDEX = "index";
+    private static final String TAG = "CheatActivity";
+
     private boolean mAnswerIsTrue;
     private TextView mAnswerTextView;
     private Button mShowMeAnswerButton;
-    private boolean mIsCheater;
+
 
     public static Intent newIntent (Context packageContext, boolean answerIsTrue){
         Intent intent = new Intent(packageContext, CheatActivity.class);
@@ -28,9 +32,12 @@ public class CheatActivity extends AppCompatActivity {
         return result.getBooleanExtra(ANSWER_SHOWN,false);
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_cheat);
 
         mAnswerIsTrue = getIntent().getBooleanExtra(GROUND_ANSWER,false);
@@ -43,19 +50,19 @@ public class CheatActivity extends AppCompatActivity {
                 
                 mAnswerTextView.setText(String.valueOf(mAnswerIsTrue));
                 
-                mIsCheater = true;
+                boolean answerIsShown = true;
 
-                setAnswerShownResult(mIsCheater);
+                Log.d(TAG, "Overrriden answerIsShown " + answerIsShown);
+                setAnswerShownResult(answerIsShown);
             }
         });
 
     }
 
-    private void setAnswerShownResult(boolean mIsCheater){
+    private void setAnswerShownResult(boolean isAnswerShown){
         Intent data = new Intent();
-        data.putExtra(ANSWER_SHOWN, mIsCheater);
+        Log.d(TAG, "In setAnswerShownResult isAnswerShown " + isAnswerShown);
+        data.putExtra(ANSWER_SHOWN, isAnswerShown);
         setResult(RESULT_OK, data);
     }
-
-
 }
